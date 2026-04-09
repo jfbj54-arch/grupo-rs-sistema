@@ -1,0 +1,56 @@
+function salvarLancamento() {
+    const tipo = document.getElementById("tipo").value;
+    const valor = Number(document.getElementById("valor").value);
+    const descricao = document.getElementById("descricao").value;
+
+    if (!valor || valor <= 0) {
+        alert("Informe um valor válido");
+        return;
+    }
+
+    db.collection("financeiro").add({
+        tipo,
+        valor,
+        descricao,
+        criadoEm: new Date()
+    }).then(() => {
+        alert("Lançamento salvo!");
+        carregarLancamentos();
+    });
+}
+
+function carregarLancamentos() {
+    const tabela = document.getElementById("listaLancamentos");
+    const saldoSpan = document.getElementById("saldo");
+
+    tabela.innerHTML = "";
+    let saldo = 0;
+
+    db.collection("financeiro").orderBy("criadoEm", "desc").get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const lanc = doc.data();
+
+            if (lanc.tipo === "entrada") saldo += lanc.valor;
+            else saldo -= lanc.valor;
+
+            tabela.innerHTML += `
+                <tr>
+                    <td>${lanc.tipo}</td>
+                    <td>R$ ${lanc.valor.toFixed(2)}</td>
+                    <td>${lanc.descricao}</td>
+                    <td><button onclick="excluirLancamento('${doc.id}')">Excluir</button></td>
+                </tr>
+            `;
+        });
+
+        saldoSpan.innerText = saldo.toFixed(2);
+    });
+}
+
+function excluirLancamento(id) {
+    if (confirm("Deseja excluir este lançamento?")) {
+        db.collection("financeiro").doc(id).delete().then(() => {
+            carregarLancamentos();
+        });
+    }
+}

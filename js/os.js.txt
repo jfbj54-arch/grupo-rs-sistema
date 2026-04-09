@@ -1,0 +1,116 @@
+let servicosSelecionados = [];
+let total = 0;
+
+function carregarClientesOS() {
+    const select = document.getElementById("cliente");
+
+    db.collection("clientes").orderBy("nome").get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const c = doc.data();
+            select.innerHTML += `<option value="${doc.id}">${c.nome}</option>`;
+        });
+    });
+}
+
+function carregarServicosOS() {
+    const select = document.getElementById("servico");
+
+    db.collection("servicos").orderBy("nome").get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const s = doc.data();
+            select.innerHTML += `<option value="${doc.id}" data-valor="${s.valor}">${s.nome}</option>`;
+        });
+    });
+}
+
+function adicionarServico() {
+    const select = document.getElementById("servico");
+    const id = select.value;
+
+    if (!id) return;
+
+    const nome = select.options[select.selectedIndex].text;
+    const valor = Number(select.options[select.selectedIndex].dataset.valor);
+
+    servicosSelecionados.push({ id, nome, valor });
+
+    total += valor;
+    document.getElementById("total").innerText = total.toFixed(2);
+
+    atualizarListaServicos();
+}
+
+function atualizarListaServicos() {
+    const ul = document.getElementById("listaServicosOS");
+    ul.innerHTML = "";
+
+    servicosSelecionados.forEach((s, index) => {
+        ul.innerHTML += `
+            <li>
+                ${s.nome} - R$ ${s.valor.toFixed(2)}
+                <button onclick="removerServico(${index})">X</button>
+            </li>
+        `;
+    });
+}
+
+function removerServico(index) {
+    total -= servicosSelecionados[index].valor;
+    servicosSelecionados.splice(index, 1);
+
+    document.getElementById("total").innerText = total.toFixed(2);
+    atualizarListaServicos();
+}
+
+function salvarOS() {
+    const cliente = document.getElementById("cliente").value;
+
+    if (!cliente || servicosSelecionados.length === 0) {
+        alert("Selecione cliente e pelo menos um serviço");
+        return;
+    }
+
+    db.collection("ordens").add({
+        cliente,
+        servicos: servicosSelecionados,
+        total,
+        criadoEm: new Date()
+    }).then(() => {
+        alert("OS criada!");
+        servicosSelecionados = [];
+        total = 0;
+        document.getElementById("total").innerText = "0.00";
+        atualizarListaServicos();
+        carregarOS();
+    });
+}
+
+function carregarOS() {
+    const tabela = document.getElementById("listaOS");
+    tabela.innerHTML = "";
+
+    db.collection("ordens").orderBy("criadoEm", "desc").get().then(snapshot => {
+        snapshot.forEach(doc => {
+            const os = doc.data();
+
+            let listaServ = os.servicos.map(s => s.nome).join(", ");
+
+            tabela.innerHTML += `
+                <tr>
+                    <td>${os.cliente}</td>
+                    <td>${listaServ}</td>
+                    <td>R$ ${os.total.toFixed(2)}</td>
+                    <td><button onclick="excluirOS('${doc.id}')">Excluir</button></td>
+                </tr>
+            `;
+        });
+    });
+}
+
+function excluirOS(id) {
+    if (confirm("Deseja excluir esta OS?")) {
+        db.collection("ordens").doc(id).delete().then(() => {
+            carregarOS();
+        });
+    }
+}
