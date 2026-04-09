@@ -7,7 +7,8 @@ function login() {
         .then(() => {
             window.location.href = "../pages/dashboard.html";
         })
-        .catch(() => {
+        .catch((e) => {
+            console.error(e);
             erro.innerText = "E-mail ou senha incorretos";
         });
 }
