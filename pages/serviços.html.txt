@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - Grupo RS Prestadora</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body onload="protegerPagina(); carregarServicos();">
+
+    <div class="topbar">
+        <h2>Serviços</h2>
+        <button class="logout" onclick="logout()">Sair</button>
+    </div>
+
+    <div class="form-container">
+        <h3>Cadastrar Serviço</h3>
+
+        <input type="text" id="nome" placeholder="Nome do serviço">
+        <input type="number" id="valor" placeholder="Valor (R$)">
+        <input type="text" id="descricao" placeholder="Descrição">
+
+        <button onclick="salvarServico()">Salvar</button>
+    </div>
+
+    <h3 style="text-align:center; margin-top:40px;">Lista de Serviços</h3>
+
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Serviço</th>
+                <th>Valor</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="listaServicos"></tbody>
+    </table>
+
+    <script src="../js/firebase.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/servicos.js"></script>
+
+</body>
+</html>

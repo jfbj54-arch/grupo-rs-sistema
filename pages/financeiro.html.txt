@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financeiro - Grupo RS Prestadora</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body onload="protegerPagina(); carregarLancamentos();">
+
+    <div class="topbar">
+        <h2>Financeiro</h2>
+        <button class="logout" onclick="logout()">Sair</button>
+    </div>
+
+    <div class="form-container">
+        <h3>Novo Lançamento</h3>
+
+        <select id="tipo">
+            <option value="entrada">Entrada</option>
+            <option value="saida">Saída</option>
+        </select>
+
+        <input type="number" id="valor" placeholder="Valor (R$)">
+        <input type="text" id="descricao" placeholder="Descrição">
+
+        <button onclick="salvarLancamento()">Salvar</button>
+    </div>
+
+    <h3 style="text-align:center; margin-top:40px;">
+        Saldo Atual: R$ <span id="saldo">0.00</span>
+    </h3>
+
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Valor</th>
+                <th>Descrição</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="listaLancamentos"></tbody>
+    </table>
+
+    <script src="../js/firebase.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/financeiro.js"></script>
+
+</body>
+</html>

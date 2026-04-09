@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordens de Serviço - Grupo RS Prestadora</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body onload="protegerPagina(); carregarClientesOS(); carregarServicosOS(); carregarOS();">
+
+    <div class="topbar">
+        <h2>Ordens de Serviço</h2>
+        <button class="logout" onclick="logout()">Sair</button>
+    </div>
+
+    <div class="form-container">
+        <h3>Criar OS</h3>
+
+        <select id="cliente">
+            <option value="">Selecione o cliente</option>
+        </select>
+
+        <select id="servico" onchange="adicionarServico()">
+            <option value="">Adicionar serviço</option>
+        </select>
+
+        <ul id="listaServicosOS"></ul>
+
+        <h3>Total: R$ <span id="total">0.00</span></h3>
+
+        <button onclick="salvarOS()">Salvar OS</button>
+    </div>
+
+    <h3 style="text-align:center; margin-top:40px;">Ordens de Serviço</h3>
+
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Serviços</th>
+                <th>Total</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody id="listaOS"></tbody>
+    </table>
+
+    <script src="../js/firebase.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/os.js"></script>
+
+</body>
+</html>
