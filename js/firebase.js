@@ -16,12 +16,13 @@ document.head.appendChild(scriptFirestore);
 // Inicializa o Firebase quando todos os scripts carregarem
 scriptFirestore.onload = () => {
     const firebaseConfig = {
-        apiKey: "AIzaSyBFaCj_qS16rIHd6iOsoGmx8tbYnVcAcAE",
-        authDomain: "grupo-rs-prestadora.firebaseapp.com",
-        projectId: "grupo-rs-prestadora",
-        storageBucket: "grupo-rs-prestadora.appspot.com",
-        messagingSenderId: "1090462727115",
-        appId: "1:1090462727115:web:29e59110e0bc687b165ae"
+    apiKey: "AIzaSyBFaCj_qS16rIHd6iOsoGmx8tbYnVcAcAE",
+    authDomain: "grupo-rs-prestadora.firebaseapp.com",
+    projectId: "grupo-rs-prestadora",
+    storageBucket: "grupo-rs-prestadora.appspot.com",
+    messagingSenderId: "1090462727115",
+    appId: "1:1090462727115:web:29e59110e0bc687b165ae"
+};
     };
 
     firebase.initializeApp(firebaseConfig);
