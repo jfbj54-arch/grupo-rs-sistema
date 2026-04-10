@@ -1,4 +1,3 @@
-<script>
 // Carregar Firebase v8 corretamente, sem document.write
 
 // Carrega os scripts do Firebase
@@ -30,4 +29,3 @@ scriptFirestore.onload = () => {
     window.auth = firebase.auth();
     window.db = firebase.firestore();
 };
-</script>
