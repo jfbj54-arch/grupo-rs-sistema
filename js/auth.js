@@ -1,4 +1,4 @@
-ffunction login() {
+function login() {
     // Garante que o Firebase carregou
     if (!window.auth) {
         alert("Carregando... tente novamente em 1 segundo.");
